@@ -1,4 +1,5 @@
 <#import "parts/common.ftlh" as c>
+
 <@c.page>
     <h1>User info</h1>
     <table>
@@ -32,7 +33,6 @@
             <td><a href="/user/${user.id}/edit"/>Edit</td>
         </tr>
     </table>
-
     <br>
     <a href="/user">Back</a>
 </@c.page>

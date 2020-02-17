@@ -11,16 +11,16 @@
         </tr>
         </thead>
         <tbody>
-            <#list users as u>
-                <tr>
-                    <td>${u.id}</td>
-                    <td>${u.username}</td>
-                    <td><a href="/user/${u.id}"/>Info</td>
-                    <td><a href="/user/${u.id}/edit"/>Edit</td>
-                </tr>
-            </#list>
+        <#list users as u>
+            <tr>
+                <td>${u.id}</td>
+                <td>${u.username}</td>
+                <td><a href="/user/${u.id}"/>Info</td>
+                <td><a href="/user/${u.id}/edit"/>Edit</td>
+            </tr>
+        </#list>
         </tbody>
     </table>
     <hr>
-        <@lo.logout/>
+    <@lo.logout/>
 </@c.page>

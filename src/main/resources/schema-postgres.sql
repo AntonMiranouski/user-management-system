@@ -5,7 +5,7 @@ create table USERS (
     FIRST_NAME varchar(255),
     LAST_NAME varchar(255),
     PASSWORD varchar(255),
-    USERNAME varchar(255),
+    USERNAME varchar(255) unique,
     ACTIVE boolean,
     primary key (ID)
 );

@@ -6,14 +6,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * The type User account service.
+ */
 @Service
 @Transactional
-public class UserAccountServiceImpl implements UserAccountService{
+public class UserAccountServiceImpl implements UserAccountService {
 
     private final UserAccountRepository accountRepository;
 
+    /**
+     * Instantiates a new User account service.
+     *
+     * @param accountRepository the account repository
+     */
     public UserAccountServiceImpl(UserAccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
@@ -25,12 +32,14 @@ public class UserAccountServiceImpl implements UserAccountService{
 
     @Override
     public UserAccount findById(Long id) {
-        return accountRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found user with this id"));
+        return accountRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found user with this id"));
     }
 
     @Override
     public UserAccount findByUsername(String username) {
-        if (!accountRepository.existsByUsername(username)){
+        if (!accountRepository.existsByUsername(username)) {
             throw new RuntimeException("Not found user with this username");
         }
         return accountRepository.findByUsername(username);
@@ -39,7 +48,7 @@ public class UserAccountServiceImpl implements UserAccountService{
     @Override
     public UserAccount save(UserAccount user) {
         user.setId(null);
-        if (accountRepository.existsByUsername(user.getUsername())){
+        if (accountRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("Account with this username already exists");
         }
         return accountRepository.saveAndFlush(user);

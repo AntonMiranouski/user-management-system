@@ -1,5 +1,15 @@
 package anton.miranouski.user_management.model;
 
+/**
+ * The enum Role.
+ */
 public enum Role {
-    ROLE_ADMIN, ROLE_USER
+    /**
+     * Admin role.
+     */
+    ROLE_ADMIN,
+    /**
+     * User role.
+     */
+    ROLE_USER
 }

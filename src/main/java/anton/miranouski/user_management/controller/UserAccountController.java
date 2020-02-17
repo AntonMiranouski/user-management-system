@@ -14,6 +14,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type User account controller.
+ */
 @Controller
 @RequestMapping("/user")
 public class UserAccountController {
@@ -24,6 +27,13 @@ public class UserAccountController {
 
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Instantiates a new User account controller.
+     *
+     * @param accountService  the account service
+     * @param mapper          the mapper
+     * @param passwordEncoder the password encoder
+     */
     public UserAccountController(
             UserAccountService accountService, DozerBeanMapper mapper, PasswordEncoder passwordEncoder
     ) {
@@ -32,6 +42,12 @@ public class UserAccountController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Gets all users.
+     *
+     * @param model the model
+     * @return the all users
+     */
     @GetMapping
     public String getAll(Model model) {
         final List<UserAccount> users = accountService.findAll();
@@ -42,6 +58,13 @@ public class UserAccountController {
         return "users";
     }
 
+    /**
+     * Gets user by id.
+     *
+     * @param id    the id
+     * @param model the model
+     * @return user by id
+     */
     @GetMapping("/{id}")
     public String getById(@PathVariable Long id, Model model) {
         final UserAccount user = accountService.findById(id);
@@ -50,11 +73,22 @@ public class UserAccountController {
         return "userDetails";
     }
 
+    /**
+     * Get user creation page.
+     *
+     * @return the string
+     */
     @GetMapping("/new")
     public String save() {
         return "userNew";
     }
 
+    /**
+     * Create new user.
+     *
+     * @param userRequest the user request
+     * @return all users
+     */
     @PostMapping("/new")
     public String save(@Valid @ModelAttribute UserAccountRequest userRequest) {
         final UserAccount user = mapper.map(userRequest, UserAccount.class);
@@ -63,6 +97,13 @@ public class UserAccountController {
         return "redirect:/user";
     }
 
+    /**
+     * Get user update page.
+     *
+     * @param id    the id
+     * @param model the model
+     * @return the string
+     */
     @GetMapping("/{id}/edit")
     public String update(@PathVariable Long id, Model model) {
         final UserAccount user = accountService.findById(id);
@@ -71,6 +112,13 @@ public class UserAccountController {
         return "userEdit";
     }
 
+    /**
+     * Update user.
+     *
+     * @param id          the id
+     * @param userRequest the user request
+     * @return updated user
+     */
     @PostMapping("/{id}/edit")
     public String update(@PathVariable Long id, @Valid @ModelAttribute UserAccountRequest userRequest) {
         UserAccount user = mapper.map(userRequest, UserAccount.class);

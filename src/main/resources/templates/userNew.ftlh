@@ -8,12 +8,11 @@
         <p>Password</p>
         <input title="Password" type="text" name="password">
         <p>First Name</p>
-        <input type="text" name="firstName">
+        <input title="First Name" type="text" name="firstName">
         <p>Last Name</p>
-        <input type="text" name="lastName">
+        <input title="Last Name" type="text" name="lastName">
         <p><input type="submit" value="Submit"></p>
     </form>
-
     <br>
     <a href="/user">Back</a>
 </@c.page>

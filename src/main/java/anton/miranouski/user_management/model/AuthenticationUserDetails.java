@@ -6,6 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * The type Authentication user details.
+ */
 public class AuthenticationUserDetails implements UserDetails {
 
     private String username;
@@ -16,6 +19,14 @@ public class AuthenticationUserDetails implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
+    /**
+     * Instantiates a new Authentication user details.
+     *
+     * @param username    the username
+     * @param password    the password
+     * @param active      the active
+     * @param authorities the authorities
+     */
     public AuthenticationUserDetails(
             String username, String password, boolean active, Collection<? extends GrantedAuthority> authorities
     ) {
@@ -25,7 +36,12 @@ public class AuthenticationUserDetails implements UserDetails {
         this.authorities = authorities;
     }
 
-    public boolean isActive() {
+    /**
+     * Is active boolean.
+     *
+     * @return the boolean
+     */
+    private boolean isActive() {
         return active;
     }
 
