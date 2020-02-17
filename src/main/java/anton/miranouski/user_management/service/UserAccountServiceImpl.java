@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -45,7 +46,7 @@ public class UserAccountServiceImpl implements UserAccountService{
     }
 
     @Override
-    public void update(UserAccount user) {
-        accountRepository.saveAndFlush(user);
+    public UserAccount update(UserAccount user) {
+        return accountRepository.saveAndFlush(user);
     }
 }

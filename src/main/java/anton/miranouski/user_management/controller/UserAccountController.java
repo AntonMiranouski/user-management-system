@@ -66,7 +66,7 @@ public class UserAccountController {
     @GetMapping("/{id}/edit")
     public String update(@PathVariable Long id, Model model) {
         final UserAccount user = accountService.findById(id);
-        UserAccountResponse userResponse = mapper.map(user, UserAccountResponse.class);
+        final UserAccountResponse userResponse = mapper.map(user, UserAccountResponse.class);
         model.addAttribute("user", userResponse);
         return "userEdit";
     }

@@ -14,5 +14,5 @@ public interface UserAccountService {
 
     UserAccount save(UserAccount user);
 
-    void update(UserAccount user);
+    UserAccount update(UserAccount user);
 }
