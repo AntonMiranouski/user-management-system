@@ -28,6 +28,14 @@ public class UserAccountServiceImpl implements UserAccountService{
     }
 
     @Override
+    public UserAccount findByUsername(String username) {
+        if (!accountRepository.existsByUsername(username)){
+            throw new RuntimeException("Not found user with this username");
+        }
+        return accountRepository.findByUsername(username);
+    }
+
+    @Override
     public UserAccount save(UserAccount user) {
         user.setId(null);
         if (accountRepository.existsByUsername(user.getUsername())){
@@ -37,7 +45,7 @@ public class UserAccountServiceImpl implements UserAccountService{
     }
 
     @Override
-    public UserAccount update(UserAccount user) {
-        return accountRepository.saveAndFlush(user);
+    public void update(UserAccount user) {
+        accountRepository.saveAndFlush(user);
     }
 }

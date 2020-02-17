@@ -11,21 +11,15 @@
             <td>${user.username}</td>
         </tr>
         <tr>
+            <td>State</td>
+            <td>${user.active?string('ACTIVE', 'INACTIVE')}</td>
+        </tr>
+        <tr>
             <td>Role</td>
             <td>
                 <#list user.roles>
                     <#items as role>
                         ${role}
-                    </#items>
-                </#list>
-            </td>
-        </tr>
-        <tr>
-            <td>Status</td>
-            <td>
-                <#list user.status>
-                    <#items as status>
-                        ${status}
                     </#items>
                 </#list>
             </td>

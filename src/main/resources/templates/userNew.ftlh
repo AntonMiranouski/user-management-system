@@ -3,7 +3,6 @@
 <@c.page>
     <h1>User Create</h1>
     <form name="user" action="/user/new" method="post">
-
         <p>Username</p>
         <input title="Username" type="text" name="username">
         <p>Password</p>

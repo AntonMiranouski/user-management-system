@@ -10,7 +10,9 @@ public interface UserAccountService {
 
     UserAccount findById(Long id);
 
+    UserAccount findByUsername(String username);
+
     UserAccount save(UserAccount user);
 
-    UserAccount update(UserAccount user);
+    void update(UserAccount user);
 }

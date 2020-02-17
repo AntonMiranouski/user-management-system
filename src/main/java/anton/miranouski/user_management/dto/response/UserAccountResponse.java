@@ -1,10 +1,9 @@
 package anton.miranouski.user_management.dto.response;
 
 import anton.miranouski.user_management.model.Role;
-import anton.miranouski.user_management.model.Status;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 public class UserAccountResponse {
 
@@ -20,9 +19,9 @@ public class UserAccountResponse {
 
     private Date createdAt;
 
-    private List<Role> roles;
+    private boolean active;
 
-    private List<Status> status;
+    private Set<Role> roles;
 
     public Long getId() {
         return id;
@@ -72,19 +71,19 @@ public class UserAccountResponse {
         this.createdAt = createdAt;
     }
 
-    public List<Role> getRoles() {
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public List<Status> getStatus() {
-        return status;
-    }
-
-    public void setStatus(List<Status> status) {
-        this.status = status;
     }
 }

@@ -1,9 +1,13 @@
 package anton.miranouski.user_management.model;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
@@ -26,20 +30,19 @@ public class UserAccount {
     @Column(name = "LAST_NAME")
     private String lastName;
 
+    @Column(name = "ACTIVE")
+    private boolean active;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATED_AT", updatable = false)
     private Date createdAt;
 
-    @ElementCollection(targetClass = Role.class)
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private List<Role> roles;
-
-    @ElementCollection(targetClass = Status.class)
-    @CollectionTable(name = "statuses", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    private List<Status> status;
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Role> roles;
 
     public Long getId() {
         return id;
@@ -81,20 +84,16 @@ public class UserAccount {
         this.lastName = lastName;
     }
 
-    public List<Role> getRoles() {
+    public boolean isActive() {
+        return active;
+    }
+
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public List<Status> getStatus() {
-        return status;
-    }
-
-    public void setStatus(List<Status> status) {
-        this.status = status;
     }
 
     public Date getCreatedAt() {
@@ -103,12 +102,23 @@ public class UserAccount {
 
     @PrePersist
     protected void onCreate() {
-        List<Role> roles = new ArrayList<>();
-        roles.add(Role.USER);
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.ROLE_USER);
         this.roles = roles;
 
-        List<Status> status = new ArrayList<>();
-        status.add(Status.ACTIVE);
-        this.status = status;
+        this.active = true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserAccount account = (UserAccount) o;
+        return Objects.equals(id, account.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

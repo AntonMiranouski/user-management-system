@@ -5,6 +5,7 @@ import anton.miranouski.user_management.dto.response.UserAccountResponse;
 import anton.miranouski.user_management.model.UserAccount;
 import anton.miranouski.user_management.service.UserAccountService;
 import org.dozer.DozerBeanMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +19,17 @@ import java.util.stream.Collectors;
 public class UserAccountController {
 
     private final UserAccountService accountService;
+
     private final DozerBeanMapper mapper;
 
-    public UserAccountController(UserAccountService accountService, DozerBeanMapper mapper) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserAccountController(
+            UserAccountService accountService, DozerBeanMapper mapper, PasswordEncoder passwordEncoder
+    ) {
         this.accountService = accountService;
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -51,6 +58,7 @@ public class UserAccountController {
     @PostMapping("/new")
     public String save(@Valid @ModelAttribute UserAccountRequest userRequest) {
         final UserAccount user = mapper.map(userRequest, UserAccount.class);
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         accountService.save(user);
         return "redirect:/user";
     }
@@ -58,14 +66,15 @@ public class UserAccountController {
     @GetMapping("/{id}/edit")
     public String update(@PathVariable Long id, Model model) {
         final UserAccount user = accountService.findById(id);
-        final UserAccountResponse userResponse = mapper.map(user, UserAccountResponse.class);
+        UserAccountResponse userResponse = mapper.map(user, UserAccountResponse.class);
         model.addAttribute("user", userResponse);
         return "userEdit";
     }
 
     @PostMapping("/{id}/edit")
     public String update(@PathVariable Long id, @Valid @ModelAttribute UserAccountRequest userRequest) {
-        final UserAccount user = mapper.map(userRequest, UserAccount.class);
+        UserAccount user = mapper.map(userRequest, UserAccount.class);
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         accountService.update(user);
         return "redirect:/user/" + id;
     }
