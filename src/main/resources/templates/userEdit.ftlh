@@ -6,8 +6,8 @@
         <input type="hidden" name="id" value="${user.id}">
         <p>Username</p>
         <input title="Username" type="text" name="username" value="${user.username}">
-        <p>Password</p>
-        <input title="Password" type="text" name="password" value="${user.password}">
+        <p>Password (must be changed)</p>
+        <input title="Password" type="text" name="password">
         <p>First Name</p>
         <input title="FirstName" type="text" name="firstName" value="${user.firstName}">
         <p>Last Name</p>

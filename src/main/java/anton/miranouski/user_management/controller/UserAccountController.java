@@ -5,7 +5,6 @@ import anton.miranouski.user_management.dto.response.UserAccountResponse;
 import anton.miranouski.user_management.model.UserAccount;
 import anton.miranouski.user_management.service.UserAccountService;
 import org.dozer.DozerBeanMapper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,21 +24,16 @@ public class UserAccountController {
 
     private final DozerBeanMapper mapper;
 
-    private final PasswordEncoder passwordEncoder;
-
     /**
      * Instantiates a new User account controller.
      *
-     * @param accountService  the account service
-     * @param mapper          the mapper
-     * @param passwordEncoder the password encoder
+     * @param accountService the account service
+     * @param mapper         the mapper
      */
     public UserAccountController(
-            UserAccountService accountService, DozerBeanMapper mapper, PasswordEncoder passwordEncoder
-    ) {
+            UserAccountService accountService, DozerBeanMapper mapper) {
         this.accountService = accountService;
         this.mapper = mapper;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -92,7 +86,6 @@ public class UserAccountController {
     @PostMapping("/new")
     public String save(@Valid @ModelAttribute UserAccountRequest userRequest) {
         final UserAccount user = mapper.map(userRequest, UserAccount.class);
-        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         accountService.save(user);
         return "redirect:/user";
     }
@@ -122,7 +115,6 @@ public class UserAccountController {
     @PostMapping("/{id}/edit")
     public String update(@PathVariable Long id, @Valid @ModelAttribute UserAccountRequest userRequest) {
         UserAccount user = mapper.map(userRequest, UserAccount.class);
-        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         accountService.update(user);
         return "redirect:/user/" + id;
     }

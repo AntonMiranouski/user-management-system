@@ -2,6 +2,7 @@ package anton.miranouski.user_management.service;
 
 import anton.miranouski.user_management.model.UserAccount;
 import anton.miranouski.user_management.repository.UserAccountRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +17,17 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     private final UserAccountRepository accountRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     /**
      * Instantiates a new User account service.
      *
      * @param accountRepository the account repository
+     * @param passwordEncoder   the password encoder
      */
-    public UserAccountServiceImpl(UserAccountRepository accountRepository) {
+    public UserAccountServiceImpl(UserAccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -51,11 +56,13 @@ public class UserAccountServiceImpl implements UserAccountService {
         if (accountRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("Account with this username already exists");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return accountRepository.saveAndFlush(user);
     }
 
     @Override
     public UserAccount update(UserAccount user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return accountRepository.saveAndFlush(user);
     }
 }
